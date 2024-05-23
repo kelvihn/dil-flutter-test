@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_project/api.dart';
 
 import 'conflicted_layout_1.dart';
 import 'conflicted_layout_2.dart';
+
+const MethodChannel _channel = MethodChannel("sample/getAndroidId");
 
 // ignore: must_be_immutable
 class PageTwo extends StatelessWidget {
@@ -27,6 +30,7 @@ class PageTwo extends StatelessWidget {
       ///[handle success]
     } else {
       ///[handle error]
+      debugPrint("Something occured, please try again later.");
     }
   }
 
@@ -40,8 +44,8 @@ class PageTwo extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
-                ///[Fetch Device ID from MainActivity.kt]
-                ///Call [getAndroidId()] which gets the device ID natively and [prints] it on the console
+                ///[Fetch Device ID from MainActivity.kt] : DONE
+                getDeviceId();
               },
               child: const Text('Print device ID')),
           const SizedBox(height: 30),
@@ -77,4 +81,15 @@ class PageTwo extends StatelessWidget {
   void pickImage() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
   }
+
+  Future<String> getDeviceId() async {
+  try {
+    final String? deviceId = await _channel.invokeMethod<String>('getAndroidId');
+    return deviceId ?? "Not found";
+  } on PlatformException catch (e) {
+    return 'Failed to get device ID: ${e.message}';
+  }
+}
+
+
 }

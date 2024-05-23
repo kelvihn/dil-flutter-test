@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:flutter/foundation.dart';
 
 class ApiService {
   final Dio _dio;
@@ -16,9 +16,23 @@ class ApiService {
     );
 
     _dio.interceptors.add(
-      ///TODO: Implement [onRequest, onResponse and onError]
-      ///Each interceptor can simply have a [print statement] of the request information e.g [request url, headers e.t.c]
-      InterceptorsWrapper(),
+      ///TODO: Implement [onRequest, onResponse and onError]: DONE
+      InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+       
+          debugPrint(options.baseUrl);
+        
+      }, onError: (error, handler) {
+        
+          debugPrint(error.message);
+               
+      },
+      onResponse: (response, handler) {
+       
+          debugPrint(response.data);
+         
+      }
+      ),
     );
   }
 
