@@ -5,35 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_project/api.dart';
 
+import 'conflicted_layout_1.dart';
+import 'conflicted_layout_2.dart';
+
 // ignore: must_be_immutable
-class PageTwo extends StatefulWidget {
+class PageTwo extends StatelessWidget {
   String name = "";
   PageTwo({super.key});
 
-  @override
-  State<PageTwo> createState() => _PageTwoState();
-}
-
-class _PageTwoState extends State<PageTwo> {
   //init DIO
   final ApiService _apiService = ApiService(Dio());
 
-  void _loadData() {
-    Future.delayed(const Duration(seconds: 2), () {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('We are happy people'),
-      ));
-    });
-  }
-
   XFile? pickedImage;
-
-  @override
-  void initState() {
-    ///[Display a snackbar on Page load]
-    _loadData();
-    super.initState();
-  }
 
   void makeAPICall() async {
     var res = await _apiService.dio.get('/appversion');
@@ -53,7 +36,7 @@ class _PageTwoState extends State<PageTwo> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("My name is ${widget.name}"),
+          Text("My name is $name"),
           const SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
@@ -75,6 +58,17 @@ class _PageTwoState extends State<PageTwo> {
                 makeAPICall();
               },
               child: const Text('Test API call')),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ConflictedLayout()));
+              },
+              child: const Text('Conflicted Layout 1')),
+          const SizedBox(height: 10),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ConflictedLayout2()));
+              },
+              child: const Text('Conflicted Layout 2')),
         ],
       ),
     );
