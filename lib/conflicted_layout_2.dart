@@ -9,24 +9,29 @@ class ConflictedLayout2 extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Screen Debugging 2'),
       ),
-      body: ListView(
-        // Use ListView for the entire list
-        children: [
-          const Text('Top Content'),
-          ListView.builder(
-            physics: const ClampingScrollPhysics(),
-            // Inner list within a list item (optional)
-            itemCount: 100,
-            itemBuilder: (context, index) => Text('Top Items $index'),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: const Text('Top Content'),
           ),
-          const Text('More Content'),
-          ListView.builder(
-            physics: const ClampingScrollPhysics(),
-            // Inner list within a list item (optional)
-            itemCount: 100,
-            itemBuilder: (context, index) => Text('More Item $index'),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Text('Top Items $index'),
+              childCount: 100,
+            ),
           ),
-          const Text('Load more'),
+          SliverToBoxAdapter(
+            child: const Text('More Content'),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Text('More Item $index'),
+              childCount: 100,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: const Text('Load more'),
+          ),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class ConflictedLayout extends StatelessWidget {
   final int length = 10000;
 
@@ -8,17 +7,21 @@ class ConflictedLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Screen Debugging 1'),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: List.generate(length, (index) => buildItemList(index)),
-          ),
-        ));
+      appBar: AppBar(
+        title: const Text('Screen Debugging 1'),
+      ),
+      body: ListView.builder(
+        itemCount: length,
+        itemBuilder: (context, index) {
+          return buildItemList(index);
+        },
+      ),
+    );
   }
 
-  buildItemList(index) {
-    return Text('Listed Items change $index ');
+  Widget buildItemList(int index) {
+    return ListTile(
+      title: Text('Listed Items change $index'),
+    );
   }
 }
