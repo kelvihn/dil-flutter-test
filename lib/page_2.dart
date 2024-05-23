@@ -57,7 +57,7 @@ class _PageTwoState extends State<PageTwo> {
 
   Future<void> _callKotlinCode() async {
     try {
-      final String result = await PageTwo.platform.invokeMethod('getAndroidId');
+      final String result = await PageTwo.platform.invokeMethod('sample/getAndroidId');
       print(result);
     } on PlatformException catch (e) {
       print("Failed to invoke method: '${e.message}'.");
