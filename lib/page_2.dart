@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_project/api.dart';
 
@@ -9,9 +10,18 @@ import 'conflicted_layout_1.dart';
 import 'conflicted_layout_2.dart';
 
 // ignore: must_be_immutable
-class PageTwo extends StatelessWidget {
-  String name = "";
+class PageTwo extends StatefulWidget {
+
   PageTwo({super.key});
+
+  @override
+  State<PageTwo> createState() => _PageTwoState();
+}
+
+class _PageTwoState extends State<PageTwo> {
+  final platform = const MethodChannel('sample/getAndroidId');
+
+  String name = "";
 
   //init DIO
   final ApiService _apiService = ApiService(Dio());
@@ -30,6 +40,15 @@ class PageTwo extends StatelessWidget {
     }
   }
 
+  void getDeviceId() async {
+    try {
+      final result = await platform.invokeMethod('getAndroidId');
+      print(result);
+    } on PlatformException catch (e) {
+      print('Failed to get android Id - $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,24 +58,17 @@ class PageTwo extends StatelessWidget {
           Text("My name is $name"),
           const SizedBox(height: 20),
           ElevatedButton(
-              onPressed: () {
-                ///[Fetch Device ID from MainActivity.kt]
-                ///Call [getAndroidId()] which gets the device ID natively and [prints] it on the console
-              },
+              onPressed: getDeviceId,
               child: const Text('Print device ID')),
           const SizedBox(height: 30),
           ElevatedButton(
-              onPressed: () {
-                pickImage();
-              },
+              onPressed: pickImage,
               child: const Text('Select Image')),
           const SizedBox(height: 10),
           if (pickedImage != null) Image.file(File(pickedImage!.path)),
           const SizedBox(height: 50),
           ElevatedButton(
-              onPressed: () {
-                makeAPICall();
-              },
+              onPressed: makeAPICall,
               child: const Text('Test API call')),
           ElevatedButton(
               onPressed: () {
@@ -76,5 +88,6 @@ class PageTwo extends StatelessWidget {
 
   void pickImage() async {
     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {});
   }
 }

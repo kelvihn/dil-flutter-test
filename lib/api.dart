@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiService {
   final Dio _dio;
 
-  ///TODO: [initalizeDio] should be called when the [ApiService class] is initialized
-  ApiService(this._dio);
+  ApiService(this._dio){
+    initializeDio();
+  }
 
   void initializeDio() {
     _dio.options = BaseOptions(
@@ -16,9 +16,21 @@ class ApiService {
     );
 
     _dio.interceptors.add(
-      ///TODO: Implement [onRequest, onResponse and onError]
-      ///Each interceptor can simply have a [print statement] of the request information e.g [request url, headers e.t.c]
-      InterceptorsWrapper(),
+      InterceptorsWrapper(
+        onRequest: (options, _){
+          print('------- Request ----------');
+          print(options.uri);
+          print(options.headers);
+        },
+        onResponse: (response, handler){
+          print('------- Response ----------');
+          print(response);
+        },
+        onError: (exception, _){
+          print('------- Error ----------');
+          print(exception);
+        },
+      ),
     );
   }
 

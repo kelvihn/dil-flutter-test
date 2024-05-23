@@ -11,14 +11,21 @@ class ConflictedLayout extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Screen Debugging 1'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: List.generate(length, (index) => buildItemList(index)),
-          ),
-        ));
+        body: ListView.builder(
+          itemCount: length,
+          itemBuilder: (_, index) => BuildItemList(index: index),
+        ),
+    );
   }
+}
 
-  buildItemList(index) {
+class BuildItemList extends StatelessWidget {
+  final int index;
+  const BuildItemList({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
     return Text('Listed Items change $index ');
   }
 }
+
