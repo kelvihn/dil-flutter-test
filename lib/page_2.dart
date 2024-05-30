@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recruit_project/api.dart';
 
@@ -39,9 +41,13 @@ class PageTwo extends StatelessWidget {
           Text("My name is $name"),
           const SizedBox(height: 20),
           ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 ///[Fetch Device ID from MainActivity.kt]
                 ///Call [getAndroidId()] which gets the device ID natively and [prints] it on the console
+                final String? deviceId =
+                    await const MethodChannel('com.android.application')
+                        .invokeMethod('getDeviceId');
+                log(deviceId.toString());
               },
               child: const Text('Print device ID')),
           const SizedBox(height: 30),
@@ -60,13 +66,19 @@ class PageTwo extends StatelessWidget {
               child: const Text('Test API call')),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ConflictedLayout()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ConflictedLayout()));
               },
               child: const Text('Conflicted Layout 1')),
           const SizedBox(height: 10),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const ConflictedLayout2()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ConflictedLayout2()));
               },
               child: const Text('Conflicted Layout 2')),
         ],

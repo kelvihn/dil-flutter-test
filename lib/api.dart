@@ -18,6 +18,7 @@ class ApiService {
     _dio.interceptors.add(
       ///TODO: Implement [onRequest, onResponse and onError]
       ///Each interceptor can simply have a [print statement] of the request information e.g [request url, headers e.t.c]
+      
       InterceptorsWrapper(),
     );
   }
