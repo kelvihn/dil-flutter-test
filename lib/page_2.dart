@@ -45,7 +45,7 @@ class PageTwo extends StatelessWidget {
                 ///[Fetch Device ID from MainActivity.kt]
                 ///Call [getAndroidId()] which gets the device ID natively and [prints] it on the console
                 final String? deviceId =
-                    await const MethodChannel('com.android.application')
+                    await const MethodChannel('com.example.recruit_project')
                         .invokeMethod('getDeviceId');
                 log(deviceId.toString());
               },
