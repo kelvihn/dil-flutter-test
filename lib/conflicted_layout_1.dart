@@ -8,14 +8,14 @@ class ConflictedLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Screen Debugging 1'),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: List.generate(length, (index) => buildItemList(index)),
-          ),
-        ));
+      appBar: AppBar(
+        title: const Text('Screen Debugging 1'),
+      ),
+      body: ListView.builder(
+        itemCount: length,
+        itemBuilder: (context, index) => buildItemList(index),
+      ),
+    );
   }
 
   buildItemList(index) {

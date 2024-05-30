@@ -18,8 +18,24 @@ class ApiService {
     _dio.interceptors.add(
       ///TODO: Implement [onRequest, onResponse and onError]
       ///Each interceptor can simply have a [print statement] of the request information e.g [request url, headers e.t.c]
-      
-      InterceptorsWrapper(),
+
+      InterceptorsWrapper(
+        onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+          print('Request[${options.method}] => PATH: ${options.path}');
+          print('Headers: ${options.headers}');
+          print('Data: ${options.data}');
+          return handler.next(options); // Continue the request
+        },
+        onResponse: (Response response, ResponseInterceptorHandler handler) {
+          print('Response[${response.statusCode}] => DATA: ${response.data}');
+          return handler.next(response); // Continue the response
+        },
+        onError: (error, ErrorInterceptorHandler handler) {
+          print(
+              'Error[${error.response?.statusCode}] => MESSAGE: ${error.message}');
+          return handler.next(error); // Continue the error
+        },
+      ),
     );
   }
 

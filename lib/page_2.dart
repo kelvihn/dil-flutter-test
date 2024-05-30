@@ -26,8 +26,12 @@ class PageTwo extends StatelessWidget {
     debugPrint("${res.data}");
 
     if (res.statusCode == 200) {
+      log(res.data);
+
       ///[handle success]
     } else {
+      log(res.statusMessage.toString());
+
       ///[handle error]
     }
   }
